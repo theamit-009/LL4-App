@@ -47,8 +47,39 @@ router.post('/login',passport.authenticate('local', {
 }) 
 
 router.get('/dashboard',(request,response)=>{
-  response.render('dashboard');
-})
+  if(request.isAuthenticated()){
+    var name = request.user.name;
+    var email = request.user.email;
+    console.log('name in dashboard'+name);
+    console.log('email in dashboard'+email);
+    response.render('dashboard',{name:name,email:email});
+  }
+  else
+  {
+    request.flash('error_msg', 'Please log in first to proceed further !');
+    response.redirect('/users/login');
+  }
+  
+});
+
+router.get('/forgotpassword',(request,response)=>{
+  var verifyDiv = false;
+  var sendOtpDiv = true;
+  response.render('forgotpassword',{verifyDiv:verifyDiv,sendOtpDiv:sendOtpDiv});
+});
+
+router.get('/getemailforotp',(request,response)=>{
+  var email = request.body.email;
+  var verifyDiv = true;
+  var sendOtpDiv = false;
+  response.render('forgotpassword',{verifyDiv:verifyDiv,sendOtpDiv:sendOtpDiv});
+});
+
+router.get('/logout', (request, response) => {
+  request.logout();
+  request.flash('success_msg', 'You are logged out');
+  response.redirect('/users/login');
+});
 
 
 module.exports = router;

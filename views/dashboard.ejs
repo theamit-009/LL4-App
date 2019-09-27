@@ -2,9 +2,14 @@
     <div class="col-md-6 m-auto">
       <div class="card card-body">
         <% include ./partials/messages %>
-        <p>Hiii Welcome to Dashboard !</p>
+      <h4>Hello <%= name%> </h4>
+      <h5>Your email is <%= email %></h5> 
+        <p>Welcome to Dashboard !</p>
 
+        <br/>
+        <a href="/users/logout" class="btn btn-secondary">Logout</a>
       </div>
     </div>
   </div>
-  
+ 
+
